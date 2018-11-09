@@ -1,0 +1,42 @@
+/*GENERAL*/
+body{
+    color:#000;
+    padding:0;
+    margin:0;
+}
+
+.upperHeader{
+    height:30px;
+    background: #144773;
+    color:#fff;
+}
+
+.header{
+    height:90px;
+    background: #d2d5db;
+    color:#fff;
+}
+
+.body{
+    min-height:450px;
+    background: #fff;
+    display: table;
+    width: 100%;
+}
+
+.footer{
+    height:90px;
+    background: #003363;
+    color:#fff;
+}
+
+/*LOGIN*/
+.login{
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.login .controls{
+    
+}
