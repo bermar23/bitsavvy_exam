@@ -7,7 +7,13 @@
 <body>
 
 <div class="upperHeader">
-
+    <div class="header_nav">        
+        <form id="search_form" method="get">   
+            <label><a href="">Join Our Newsletter</a> | <a href="">Client Login</a> |</label>     
+            <input type="text" name="q"/>
+            <input type="submit" value="Login"/>        
+        </form>
+    </div>
 </div>
 
 <div class="header">
