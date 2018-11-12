@@ -24,7 +24,7 @@ class Address implements MyModel{
             $where = "AND name LIKE '%$q%' OR address LIKE '%$q%' OR city LIKE '%$q%' OR state LIKE '%$q%' OR zipcode LIKE '%$q%' OR phone LIKE '%$q%'";
         }
         
-        $sql = "SELECT * FROM address WHERE 1 $where LIMIT $limit;";
+        $sql = "SELECT * FROM address WHERE 1 $where ORDER BY $sort_field $sort_by LIMIT $limit;";
 
         $result = mysqli_query($_myDb, $sql);
 
