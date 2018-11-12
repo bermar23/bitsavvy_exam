@@ -36,6 +36,28 @@ body{
     color:red;
 }
 
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid black;
+    padding: 2px;
+}
+
+table thead{
+    background-color:lightgray;
+}
+
+.address-table{
+    margin:20px;
+}
+
+th a, td a{
+    color:#000;
+}
+
 /*HEADER*/
 .header_nav{
     float:right;
@@ -59,4 +81,9 @@ body{
 
 .login input{
     width:150px;
+}
+
+/*ADDRESS*/
+.address-body{
+    padding:20px 100px;
 }
