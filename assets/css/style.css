@@ -32,6 +32,10 @@ body{
     color:#fff;
 }
 
+.warning-text{
+    color:red;
+}
+
 /*HEADER*/
 .header_nav{
     float:right;

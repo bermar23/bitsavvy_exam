@@ -1,11 +1,21 @@
 <?php
 require './autoload.php';
 
+if(isset($_SESSION['login_user'])){
+    header('Location: index.php');
+}
+
 include './templates/header.php';
 ?>
 
+
 <div class="login">
-    <form id="login_form" method="post">
+    <form id="login_form" method="post" action="./loginProcess.php">
+        <p class="warning-text">
+        <?php
+            echo (isset($_GET['error'])?$_GET['error']:'');
+        ?>
+        </p>
         <div class="controls">
             <label>Username</label>
             <input type="text" name="username"/>
@@ -19,6 +29,9 @@ include './templates/header.php';
         </div>
     </form>
 </div>
+<script>
+
+</script>
 
 <?php
 include './templates/footer.php';
