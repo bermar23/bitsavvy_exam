@@ -10,8 +10,8 @@
     <div class="header_nav">        
         <form id="search_form" method="get">   
             <label><a href="">Join Our Newsletter</a> | <a href="">Client Login</a> |</label>     
-            <input type="text" name="q"/>
-            <input type="submit" value="Login"/>        
+            <input type="text" name="q" value="<?php echo $q;?>"/>
+            <input type="submit" value="Search"/>        
         </form>
     </div>
 </div>

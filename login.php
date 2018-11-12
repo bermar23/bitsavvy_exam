@@ -4,6 +4,11 @@ require './autoload.php';
 if(isset($_SESSION['login_user'])){
     header('Location: index.php');
 }
+$q = '';
+
+if(isset($_GET['q'])){
+    $q = $_GET['q'];
+}
 
 include './templates/header.php';
 ?>

@@ -8,7 +8,6 @@ if(!$_SESSION['login_user']){
 
 $sort_field = 'name';
 $sort_by = 'asc';
-$limit = '';
 $q = '';
 
 if(isset($_GET['q'])){
@@ -23,11 +22,7 @@ if(isset($_GET['sort_by'])){
     $sort_by = $_GET['sort_by'];
 }
 
-if(isset($_GET['limit'])){
-    $limit = $_GET['limit'];
-}
-
-$address = \Models\Address::getData($q, $sort_field, $sort_by, $limit);
+$data = \Models\Address::getData($q, $sort_field, $sort_by);
 
 include './templates/header.php';
 ?>
@@ -47,18 +42,18 @@ include './templates/header.php';
                 <th><a href="#">Actions</a></th>
             </tr>
         </thead>
-        <tbody>
-            <?foreach($address as $row){?>                
-            <tr>
-                <td><? echo $row['name']; ?></td>
-                <td><? echo $row['address']; ?></td>
-                <td><? echo $row['city']; ?></td>
-                <td><? echo $row['state']; ?></td>
-                <td><? echo $row['zipcode']; ?></td>
-                <td><? echo $row['phone']; ?></td>
-                <td><a href="#" class="edit_action">Edit</a> | <a href="#" class="delete_action">Delete</a></td>
-            </tr>            
-            <?}?>
+        <tbody>            
+            <?php foreach($data as $row){?>  
+                <tr>
+                    <td><?php echo $row['name'] ?></td>
+                    <td><?php echo $row['address']; ?></td>
+                    <td><?php echo $row['city'] ?></td>
+                    <td><?php echo $row['state'] ?></td>
+                    <td><?php echo $row['zipcode'] ?></td>
+                    <td><?php echo $row['phone'] ?></td>
+                    <td><a href="#" class="edit_action">Edit</a> | <a href="#" class="delete_action">Delete</a></td>
+                </tr>            
+            <?php }?> 
         </tbody>
         <tfoot></tfoot>
     </table>

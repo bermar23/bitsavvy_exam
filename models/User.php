@@ -14,7 +14,6 @@ class User {
         $sql = "SELECT * FROM users WHERE username = '$username' and password = '$password'";
 
         $result = mysqli_query($_myDb,$sql);
-        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
             
         if((mysqli_num_rows($result)) == 1) {
             $_SESSION['login_user'] = $_username;
