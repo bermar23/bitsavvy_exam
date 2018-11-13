@@ -69,14 +69,21 @@ th a, td a{
 }
 
 /*LOGIN*/
+#login_form{
+    width: 300px;
+}
+
 .login{
-    display: table-cell;
-    text-align: center;
-    vertical-align: middle;
+    position: fixed;
+    top: 200px;
+    left: 40%;
+    width: 200px;
+    padding:10px;
 }
 
 .login .controls{
     margin-top: 10px;
+    width:200px;
 }
 
 .login input{
@@ -103,8 +110,12 @@ th a, td a{
     margin-top:5px;
 }
 
-#modal label{
-    font-size:10px;
+.controls input[type=text], .controls input[type=password]{
+    width:100%;
+}
+
+#modal label, .login label{
+    font-size:12px;
     display: inline;
 }
 

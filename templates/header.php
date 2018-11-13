@@ -1,7 +1,8 @@
 <html>
 
 <head>    
-    <link rel="stylesheet" href="./assets/css/style.css?v=1.0">
+    <link rel="stylesheet" href="./assets/css/style.css?v=1.0">    
+    <script src="./assets/js/jquery-3.3.1.min.js"></script>
 </head>
 
 <body>
