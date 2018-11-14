@@ -136,8 +136,7 @@ include './templates/header.php';
         });
 
         $("#fun_button").click(function(){
-            alert('Fun button');
-            return;
+            $("#address-table tbody tr:nth-child(3) td:nth-child(3)").html('FUN STUFF');
         });
 
         $("#save_button").click(function(){ 
