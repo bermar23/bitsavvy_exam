@@ -33,55 +33,72 @@ class Address extends Db{
         
         $db = self::connect();
 
-        $id = mysqli_real_escape_string($id);
+        $id = mysqli_real_escape_string($db, $id);
         
-        $sql = "SELECT * FROM address WHERE id = $id;";
+        $sql = "SELECT * FROM address WHERE `id` = $id;";
 
         $result = mysqli_query($db, $sql);
 
         return mysqli_fetch_assoc($result);
     }
 
-    public static function update($data){
+    /**
+     * Insert and update data
+     */
+    public static function createUpdate($data){
 
         $db = self::connect();
-
-        //get data if not exist
         
-        if(isset($data['address_id'])||$data['address_id']){
+        $name = mysqli_real_escape_string($db, $data['name']);
+        $address = mysqli_real_escape_string($db, $data['address']);
+        $city = mysqli_real_escape_string($db, $data['city']);
+        $state = mysqli_real_escape_string($db, $data['state']);
+        $zipcode = mysqli_real_escape_string($db, $data['zipcode']);
+        $phone = mysqli_real_escape_string($db, $data['phone']);
+        
+        if(isset($data['address_id'])&&$data['address_id']){
             $address = self::getDataByID($data['address_id']);
-            if($address==null){
+            if(empty($address)){
                 return false;
             }
 
             //update data
             $address_id = mysqli_real_escape_string($db, $data['address_id']);
-            $name = mysqli_real_escape_string($db, $data['name']);
-            $address = mysqli_real_escape_string($db, $data['address']);
-            $city = mysqli_real_escape_string($db, $data['city']);
-            $state = mysqli_real_escape_string($db, $data['state']);
-            $zipcode = mysqli_real_escape_string($db, $data['zipcode']);
-            $phone = mysqli_real_escape_string($db, $data['phone']);
+
+            //update query
+            $query = "UPDATE address 
+                        SET 
+                            `name`='$name',
+                            `address`='$address',
+                            `city`='$city',
+                            `state`='$state',
+                            `zipcode`='$zipcode',
+                            `phone`='$phone' 
+                        WHERE `id`=$address_id";
+
+            if (mysqli_query($db, $query)) {
+                $updated_address = self::getDataByID($data['address_id']);
+                return $updated_address;
+            } else {
+                return false;
+            }
 
         }else{
-            return false;
+
+            //insert query
+            $query = "INSERT INTO address (`name`, `address`, `city`, `state`, `zipcode`, `phone`)
+                VALUES ('$name', '$address', '$city', '$state', '$zipcode', '$phone')";
+
+            if (mysqli_query($db, $query)) {
+                $new_address_id = mysqli_insert_id($db);
+
+                $updated_address = self::getDataByID($new_address_id);
+                return $updated_address;
+            } else {
+                return false;
+            }
         }
 
-        //create data
-
-        //return address data
-
-        $where = "";
-
-        if($q){
-            $where = "AND name LIKE '%$q%' OR address LIKE '%$q%' OR city LIKE '%$q%' OR state LIKE '%$q%' OR zipcode LIKE '%$q%' OR phone LIKE '%$q%'";
-        }
-        
-        $sql = "SELECT * FROM address WHERE 1 $where ORDER BY $sort_field $sort_by LIMIT $limit;";
-
-        $result = mysqli_query($db, $sql);
-
-        return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 
     //end of class

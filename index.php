@@ -128,11 +128,24 @@ include './templates/header.php';
 				type: "POST",
                 data : $("#address_form").serialize(),
 				url: "./processAddress.php",
-				success: function(data){
-					console.log(data);
+                dataType: "json",
+				success: function(data){                    
+                    alert('New address added!');
+                    var new_row = '<tr>'+
+                                    '<td class="name">'+data.name+'</td>'+
+                                    '<td class="address">'+data.address+'</td>'+
+                                    '<td class="city">'+data.city+'</td>'+
+                                    '<td class="state">'+data.state+'</td>'+
+                                    '<td class="zipcode">'+data.zipcode+'</td>'+
+                                    '<td class="phone">'+data.phone+'</td>'+
+                                    '<td><a href="#" class="edit_action" data-address_id="'+data.id+'">Edit</a> | <a href="#" class="delete_action" data-address_id="'+data.id+'">Delete</a></td>'+
+                                    '</tr>';
+                    $("#address-table tbody").append(new_row);
+                    $('#overlay').hide();          
+                    $('#modal').hide();
 				},
                 error: function(jqXHR, textStatus, errorThrown){
-
+                    alert('Error!');
                 }
 			});            
         });
