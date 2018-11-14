@@ -105,6 +105,8 @@ include './templates/header.php';
 
 </div>
 
+<br>
+<br>
 <script type="text/javascript">
 	$(document).ready(function(){
 

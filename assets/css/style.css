@@ -15,8 +15,11 @@ body{
 
 .header{
     height:90px;
-    background: #d2d5db;
-    color:#fff;
+    background: #e1e5de; /* Old browsers */
+    background: -moz-linear-gradient(25deg, #e1e5de 1%, #d8dee3 30%, #c8cdd4 31%, #e4e4e4 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(25deg, #e1e5de 1%,#d8dee3 30%,#c8cdd4 31%,#e4e4e4 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(25deg, #e1e5de 1%,#d8dee3 30%,#c8cdd4 31%,#e4e4e4 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e1e5de', endColorstr='#e4e4e4',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
 .body{
@@ -30,6 +33,16 @@ body{
     height:90px;
     background: #003363;
     color:#fff;
+    padding: 20px;
+}
+
+.footer table, .footer td, .footer tr{
+    border:none;
+    color:#fff;
+}
+
+.footer img{
+    width: 200px;
 }
 
 .warning-text{
@@ -56,6 +69,24 @@ table thead{
 
 th a, td a{
     color:#000;
+}
+
+.pull-right{
+    float:right;
+}
+
+.site-logo{
+    width: 70%;
+    padding: 10px 20px;
+}
+
+.call-logo{    
+    padding: 10px 20px;
+    text-align:right;
+}
+
+.site-logo img{
+    width: 300px;
 }
 
 /*HEADER*/
@@ -133,4 +164,9 @@ th a, td a{
 
 .fun-button-wrapper{
     float:right;
+}
+
+#search_button{
+    background: url("../images/search.png") no-repeat lightgray;
+    width:24px;
 }
