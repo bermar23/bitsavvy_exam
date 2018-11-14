@@ -72,30 +72,30 @@ include './templates/header.php';
         </p>
         <div class="controls">
             <label>Name</label>
-            <input type="text" name="name" id="form_name"/>
+            <input type="text" name="name" id="form_name" placeholder="enter text..."/>
             <input type="hidden" name="mode" id="form_mode"/>
             <input type="hidden" name="address_id" id="form_address_id"/>
             <input type="hidden" name="_token" value="1234567890bermar"/>
         </div>
         <div class="controls">
             <label>Address</label>
-            <input type="text" name="address" id="form_address"/>
+            <input type="text" name="address" id="form_address" placeholder="enter text..."/>
         </div>
         <div class="controls">
             <label>City</label>
-            <input type="text" name="city" id="form_city"/>
+            <input type="text" name="city" id="form_city" placeholder="enter text..."/>
         </div>
         <div class="controls">
             <label>State</label>
-            <input type="text" name="state" id="form_state"/>
+            <input type="text" name="state" id="form_state" placeholder="enter text..."/>
         </div>
         <div class="controls">
             <label>Zip</label>
-            <input type="text" name="zipcode" id="form_zipcode"/>
+            <input type="text" name="zipcode" id="form_zipcode" placeholder="enter text..."/>
         </div>
         <div class="controls">
             <label>Phone</label>
-            <input type="text" name="phone" id="form_phone"/>
+            <input type="text" name="phone" id="form_phone" placeholder="enter text..."/>
         </div>
         <div class="controls">
             <input id="save_button" type="button" value="Save"/>
@@ -127,6 +127,17 @@ include './templates/header.php';
             $('#modal').show();        
             $('#form_mode').val('add');
             
+        });
+
+        $("#cancel_button").click(function(){              
+            $('#overlay').hide();          
+            $('#modal').hide();
+            return;
+        });
+
+        $("#fun_button").click(function(){
+            alert('Fun button');
+            return;
         });
 
         $("#save_button").click(function(){ 
@@ -169,18 +180,7 @@ include './templates/header.php';
                     alert('Error!');
                 }
 			});            
-        });
-
-        $("#cancel_button").click(function(){              
-            $('#overlay').hide();          
-            $('#modal').hide();
-            return;
-        });
-
-        $("#fun_button").click(function(){
-            alert('Fun button');
-            return;
-        });        
+        });      
 
         $address_table.on('click', 'a.edit_action', function(e){
 			e.preventDefault();
@@ -206,13 +206,29 @@ include './templates/header.php';
             $('#form_state').val(state);
             $('#form_zipcode').val(zipcode);
             $('#form_phone').val(phone);
-		});        
+		});         
 
         $address_table.on('click', 'a.delete_action', function(e){
+
             e.preventDefault();
-            alert('Delete action');
+
+            var address_id = $(this).data('address_id');
+
+            $.ajax({
+				type: "POST",
+                data : {'address_id':address_id},
+				url: "./deleteAddress.php",
+                dataType: "json",
+				success: function(data){  
+                    alert('Deleted successfully!');
+                    $('#row_'+address_id).remove();
+				},
+                error: function(jqXHR, textStatus, errorThrown){
+                    alert('Error!');
+                }
+			});
             
-        });
+        }); 
 
 
 	});

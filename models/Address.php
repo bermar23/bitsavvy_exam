@@ -35,9 +35,9 @@ class Address extends Db{
 
         $id = mysqli_real_escape_string($db, $id);
         
-        $sql = "SELECT * FROM address WHERE `id` = $id;";
+        $query = "SELECT * FROM address WHERE `id` = $id;";
 
-        $result = mysqli_query($db, $sql);
+        $result = mysqli_query($db, $query);
 
         return mysqli_fetch_assoc($result);
     }
@@ -99,6 +99,25 @@ class Address extends Db{
             }
         }
 
+    }
+
+    public static function deleteAddress($id){
+
+        if(!$id){
+            return false;
+        }
+        
+        $db = self::connect();
+
+        $id = mysqli_real_escape_string($db, $id);
+
+        $query= "DELETE FROM address WHERE id=$id";
+        
+        if (mysqli_query($db, $query)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     //end of class

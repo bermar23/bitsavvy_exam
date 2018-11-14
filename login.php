@@ -23,11 +23,11 @@ include './templates/header.php';
         </p>
         <div class="controls">
             <label>Username</label>
-            <input type="text" name="username"/>
+            <input type="text" name="username" placeholder="enter text..."/>
         </div>
         <div class="controls">
             <label>Password</label>
-            <input type="password" name="password"/>
+            <input type="password" name="password" placeholder="enter text..."/>
         </div>
         <div class="controls">
             <input type="submit" value="Login"/>
