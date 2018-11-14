@@ -46,7 +46,7 @@ include './templates/header.php';
         </thead>
         <tbody>            
             <?php foreach($data as $row){?>  
-                <tr>
+                <tr id="row_<?php echo $row['id'] ?>">
                     <td class="name"><?php echo $row['name'] ?></td>
                     <td class="address"><?php echo $row['address']; ?></td>
                     <td class="city"><?php echo $row['city'] ?></td>
@@ -72,7 +72,8 @@ include './templates/header.php';
         </p>
         <div class="controls">
             <label>Name</label>
-            <input type="text" name="name"/>
+            <input type="text" name="name" id="form_name"/>
+            <input type="hidden" name="mode" id="form_mode"/>
             <input type="hidden" name="address_id" id="form_address_id"/>
             <input type="hidden" name="_token" value="1234567890bermar"/>
         </div>
@@ -109,8 +110,10 @@ include './templates/header.php';
 
         var $address_table = $("#address-table");
 
+
         function clearFields(){
             $('#form_address_id').val('');
+            $('#form_name').val('');
             $('#form_address').val('');
             $('#form_city').val('');
             $('#form_state').val('');
@@ -118,29 +121,47 @@ include './templates/header.php';
             $('#form_phone').val('');
         }
 
-        $("#add_button").click(function(){            
+        $("#add_button").click(function(){   
+            clearFields();         
             $('#overlay').show();          
-            $('#modal').show();
+            $('#modal').show();        
+            $('#form_mode').val('add');
+            
         });
 
-        $("#save_button").click(function(){   
+        $("#save_button").click(function(){ 
+            var mode = $('#form_mode').val();  
             $.ajax({
 				type: "POST",
                 data : $("#address_form").serialize(),
 				url: "./processAddress.php",
                 dataType: "json",
-				success: function(data){                    
-                    alert('New address added!');
-                    var new_row = '<tr>'+
-                                    '<td class="name">'+data.name+'</td>'+
-                                    '<td class="address">'+data.address+'</td>'+
-                                    '<td class="city">'+data.city+'</td>'+
-                                    '<td class="state">'+data.state+'</td>'+
-                                    '<td class="zipcode">'+data.zipcode+'</td>'+
-                                    '<td class="phone">'+data.phone+'</td>'+
-                                    '<td><a href="#" class="edit_action" data-address_id="'+data.id+'">Edit</a> | <a href="#" class="delete_action" data-address_id="'+data.id+'">Delete</a></td>'+
-                                    '</tr>';
-                    $("#address-table tbody").append(new_row);
+				success: function(data){  
+                    if(mode=='edit'){                                     
+                        alert('Successfully updated address!');
+                        $('#row_'+data.id).html('');
+                        var new_row = '<td class="name">'+data.name+'</td>'+
+                                        '<td class="address">'+data.address+'</td>'+
+                                        '<td class="city">'+data.city+'</td>'+
+                                        '<td class="state">'+data.state+'</td>'+
+                                        '<td class="zipcode">'+data.zipcode+'</td>'+
+                                        '<td class="phone">'+data.phone+'</td>'+
+                                        '<td><a href="#" class="edit_action" data-address_id="'+data.id+'">Edit</a> | <a href="#" class="delete_action" data-address_id="'+data.id+'">Delete</a></td>';
+                        $('#row_'+data.id).html(new_row);
+                    }else if(mode=='add'){             
+                        alert('New address added!');
+                        var new_row = '<tr id="row_'+data.id+'">'+
+                                        '<td class="name">'+data.name+'</td>'+
+                                        '<td class="address">'+data.address+'</td>'+
+                                        '<td class="city">'+data.city+'</td>'+
+                                        '<td class="state">'+data.state+'</td>'+
+                                        '<td class="zipcode">'+data.zipcode+'</td>'+
+                                        '<td class="phone">'+data.phone+'</td>'+
+                                        '<td><a href="#" class="edit_action" data-address_id="'+data.id+'">Edit</a> | <a href="#" class="delete_action" data-address_id="'+data.id+'">Delete</a></td>'+
+                                        '</tr>';
+                        $("#address-table tbody").append(new_row);
+                    }
+
                     $('#overlay').hide();          
                     $('#modal').hide();
 				},
@@ -150,8 +171,7 @@ include './templates/header.php';
 			});            
         });
 
-        $("#cancel_button").click(function(){   
-            alert('Cancel button');                       
+        $("#cancel_button").click(function(){              
             $('#overlay').hide();          
             $('#modal').hide();
             return;
@@ -164,18 +184,28 @@ include './templates/header.php';
 
         $address_table.on('click', 'a.edit_action', function(e){
 			e.preventDefault();
-            alert('Edit action');
-			return;
-			$.ajax({
-				type: "POST",
-				url: "./getAddress.php?address_id"+$this.data('user_id'),
-				success: function(data){
-					
-				},
-                error: function(jqXHR, textStatus, errorThrown){
+            clearFields();
+            $('#overlay').show();          
+            $('#modal').show();        
+            $('#form_mode').val('edit');
 
-                }
-			});
+            var address_id = $(this).data('address_id');
+            
+            var row = $(this).parents('tr');
+            var name = $(row).find('td.name').html();
+            var address = $(row).find('td.address').html();
+            var city = $(row).find('td.city').html();
+            var state = $(row).find('td.state').html();
+            var zipcode = $(row).find('td.zipcode').html();
+            var phone = $(row).find('td.phone').html();
+
+            $('#form_address_id').val(address_id);
+            $('#form_name').val(name);
+            $('#form_address').val(address);
+            $('#form_city').val(city);
+            $('#form_state').val(state);
+            $('#form_zipcode').val(zipcode);
+            $('#form_phone').val(phone);
 		});        
 
         $address_table.on('click', 'a.delete_action', function(e){

@@ -57,8 +57,8 @@ class Address extends Db{
         $phone = mysqli_real_escape_string($db, $data['phone']);
         
         if(isset($data['address_id'])&&$data['address_id']){
-            $address = self::getDataByID($data['address_id']);
-            if(empty($address)){
+            $_address = self::getDataByID($data['address_id']);
+            if(!$_address){
                 return false;
             }
 
