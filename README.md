@@ -81,11 +81,15 @@ Where address displays
 
 ### Logout
 
-Logout process
+Logout the page and destroy session.
+
+{{HOST}}/logout.php
 
 ## Installation
 
 Put the application to the root of your web server where you run your php application
+
+Create a database named bitsavvydb in your MYSQL database server. Import the database dump located in ./database_dump folder.
 
 ## Login Credentials
 
