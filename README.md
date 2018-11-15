@@ -107,3 +107,8 @@ Create a database named bitsavvydb if you preferred something else change the da
 
 Screenshot:
 ![alt text](assets/images/screenshot.png)
+
+
+## The problem
+
+Sorting works in number column only and sometimes works in text column.
