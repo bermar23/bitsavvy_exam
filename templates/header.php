@@ -17,8 +17,9 @@
     </div>
 </div>
 
-<div class="header">    
-    <div class="call-logo pull-right"><img src="./assets/images/call.png"/></div>
+<div class="header">
+    <div class="call-logo pull-right"><img src="./assets/images/call.png"/></div>  
+    
     <div class="site-logo">
     <img src="./assets/images/logo.png"/>
     </div>

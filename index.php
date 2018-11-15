@@ -35,12 +35,12 @@ include './templates/header.php';
     <table id="address-table" class="address-table">
         <thead>
             <tr>
-                <th><a href="#" class="sort_head" data-index="0" data-order="">Name</a></th>
-                <th><a href="#" class="sort_head" data-index="1" data-order="">Address</a></th>
-                <th><a href="#" class="sort_head" data-index="2" data-order="">City</a></th>
-                <th><a href="#" class="sort_head" data-index="3" data-order="">State</a></th>
-                <th><a href="#" class="sort_head" data-index="4" data-order="">Zip</a></th>
-                <th><a href="#" class="sort_head" data-index="5" data-order="">Phone</a></th>
+                <th><a href="#" class="sort_head" data-index="0" data-type="text">Name</a></th>
+                <th><a href="#" class="sort_head" data-index="1" data-type="text">Address</a></th>
+                <th><a href="#" class="sort_head" data-index="2" data-type="text">City</a></th>
+                <th><a href="#" class="sort_head" data-index="3" data-type="text">State</a></th>
+                <th><a href="#" class="sort_head" data-index="4" data-type="num">Zip</a></th>
+                <th><a href="#" class="sort_head" data-index="5" data-type="num">Phone</a></th>
                 <th><a href="#">Actions</a></th>
             </tr>
         </thead>
@@ -112,6 +112,9 @@ include './templates/header.php';
 
         var $address_table = $("#address-table");
 
+        var last_sort_index = -1;
+        var last_sort_order = '';
+
 
         function clearFields(){
             $('#form_address_id').val('');
@@ -121,48 +124,6 @@ include './templates/header.php';
             $('#form_state').val('');
             $('#form_zipcode').val('');
             $('#form_phone').val('');
-        }
-
-        function sortAddress(index, order){
-
-            var data = [];
-
-            $('#address-table > tbody  > tr').each(function() {
-                var address_id = $(this).find('a.edit_action').data('address_id');          
-                var name = $(this).find('td.name').html();
-                var address = $(this).find('td.address').html();
-                var city = $(this).find('td.city').html();
-                var state = $(this).find('td.state').html();
-                var zipcode = $(this).find('td.zipcode').html();
-                var phone = $(this).find('td.phone').html();                
-                var rowData=[name,address,city,state,zipcode,phone,address_id];
-                data.push(rowData);
-                
-            });
-
-            data.sort(function(a,b) {
-                if(order=='asc'){                    
-                    return a[index]-b[index];
-                }
-                return b[index]-a[index];
-            });
-
-            
-            $("#address-table tbody").html('');
-
-            //plot the table
-            $.each(data, function( index, value ) {
-                var new_row = '<tr id="row_'+value[6]+'">'+
-                                        '<td class="name">'+value[0]+'</td>'+
-                                        '<td class="address">'+value[1]+'</td>'+
-                                        '<td class="city">'+value[2]+'</td>'+
-                                        '<td class="state">'+value[3]+'</td>'+
-                                        '<td class="zipcode">'+value[4]+'</td>'+
-                                        '<td class="phone">'+value[5]+'</td>'+
-                                        '<td><a href="#" class="edit_action" data-address_id="'+value[6]+'">Edit</a> | <a href="#" class="delete_action" data-address_id="'+value[6]+'">Delete</a></td>'+
-                                        '</tr>';
-                $("#address-table tbody").append(new_row);
-            });
         }
 
         $("#add_button").click(function(){   
@@ -271,26 +232,73 @@ include './templates/header.php';
                 }
 			});
             
-        }); 
+        });
 
-              
+        function sortAddressTable(index, type){
+
+            var addresses = [];
+
+            $('#address-table > tbody  > tr').each(function() {
+                var address_id = $(this).find('a.edit_action').data('address_id');          
+                var name = $(this).find('td.name').html();
+                var address = $(this).find('td.address').html();
+                var city = $(this).find('td.city').html();
+                var state = $(this).find('td.state').html();
+                var zipcode = $(this).find('td.zipcode').html();
+                var phone = $(this).find('td.phone').html();                
+                var rowData=[name,address,city,state,zipcode,phone,address_id];
+                addresses.push(rowData);
+                
+            });
+
+            if(type=='text'){
+                addresses.sort(compareText);
+            }else{
+                addresses.sort(compareNumber);                
+            }            
+
+            last_sort_index = index;
+
+            $("#address-table tbody").html('');
+
+            //plot the table
+            $.each(addresses, function( index, value ) {
+                var new_row = '<tr id="row_'+value[6]+'">'+
+                                        '<td class="name">'+value[0]+'</td>'+
+                                        '<td class="address">'+value[1]+'</td>'+
+                                        '<td class="city">'+value[2]+'</td>'+
+                                        '<td class="state">'+value[3]+'</td>'+
+                                        '<td class="zipcode">'+value[4]+'</td>'+
+                                        '<td class="phone">'+value[5]+'</td>'+
+                                        '<td><a href="#" class="edit_action" data-address_id="'+value[6]+'">Edit</a> | <a href="#" class="delete_action" data-address_id="'+value[6]+'">Delete</a></td>'+
+                                        '</tr>';
+                $("#address-table tbody").append(new_row);
+            });
+        }              
 
         $("#address-table").on('click', 'a.sort_head', function(e){
 			e.preventDefault();
 
             var head_index = $(this).data('index');
-            var order = $(this).data('order');
-            if(order==''){
-                order='asc';
+            var head_type = $(this).data('type');
+
+            sortAddressTable(head_index, head_type);
+
+		}); 
+
+        function compareText(a,b) {
+            if (a === b) {
+                return 0;
+            } else {
+                return (a > b) ? -1 : 1;
             }
-            console.log(order);
-            sortAddress(head_index, order);
-            if(order=='asc'){
-                $(this).attr('data-order', 'desc');
-            }else if(order=='desc'){                
-                $(this).attr('data-order', 'asc');
-            }
-		});  
+        }//end of function 
+
+        function compareNumber(a,b) {
+            var _a = /\d/.test(a) ? parseFloat(a) : 0;
+            var _b = /\d/.test(b) ? parseFloat(b) : 0;
+            return( _a == _b ? 0 : (_a > _b ? 1 : -1) );
+        }//end of function  
 
 
 	});
