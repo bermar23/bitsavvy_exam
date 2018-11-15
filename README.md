@@ -98,3 +98,8 @@ Password: password
 ## Database
 
 Create a database named bitsavvydb if you preferred something else change the database name in the config file (./config.php)
+
+## The UI
+
+Screenshot:
+![alt text](assets/images/screenshot.png)
